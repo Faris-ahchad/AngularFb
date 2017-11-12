@@ -2,322 +2,76 @@
 <html lang="en" ng-app="scotchApp">
 <head>
 
-  <style>
-        #fb-btn{
-    margin-top:8px; 
-    margin-left: 90px;
-}
-#profile, #logout, #feed{
-    display:none
-}
-#image {
-    width: 300px;
-    height: 200px;
-    vertical-align: middle;
-    border-style: none;
-}
-
-
-.container {
-    position: relative;
-    width: 50%;
-}
-
-.image {
-  margin-left: -485px;
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
-}
-
-.well {
-  white-space: nowrap;
-}
-
-.album {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
-}
-
-.album2 {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
-}
-
-.middle {
-  transition: .5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%)
-}
-
-.container:hover .image {
-  opacity: 0.3;
-}
-
-.container:hover .middle {
-  opacity: 1;
-}
-
-.text {
-
-  color: black;
-  font-size: 16px;
-  padding: 16px 32px;
-}  
-
-.column {
-	margin: 15px 15px 0;
-	padding: 0;
-}
-.column:last-child {
-	padding-bottom: 60px;
-}
-.column::after {
-	content: '';
-	clear: both;
-	display: block;
-}
-.column div {
-	position: relative;
-	float: left;
-	width: 300px;
-	height: 200px;
-	margin: 0 0 0 25px;
-	padding: 0;
-}
-.column div:first-child {
-	margin-left: 0;
-}
-.column div span {
-	position: absolute;
-	bottom: -20px;
-	left: 0;
-	z-index: -1;
-	display: block;
-	width: 300px;
-	margin: 0;
-	padding: 0;
-	color: #444;
-	font-size: 18px;
-	text-decoration: none;
-	text-align: center;
-	-webkit-transition: .3s ease-in-out;
-	transition: .3s ease-in-out;
-	opacity: 0;
-}
-figure {
-	width: 300px;
-	height: 200px;
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-}
-figure:hover+span {
-	bottom: -36px;
-	opacity: 1;
-}
-
-/* Flashing */
-.hover13 figure:hover img {
-	opacity: 1;
-	-webkit-animation: flash 1.5s;
-	animation: flash 1.5s;
-}
-@-webkit-keyframes flash {
-	0% {
-		opacity: .4;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-@keyframes flash {
-	0% {
-		opacity: .4;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-
-
-div.gallery {
-    margin: 5px;
-    border: 1px solid #ccc;
-    float: left;
-}
-
-div.gallery2 {
-    margin: 5px;
-    border: 1px solid #ccc;
-    float: left;
-}
-div.gallery:hover {
-    border: 1px solid #777;
-}
-
-div.gallery img {
-    width: 100%;
-    height: 100%;
-}
-
-div.desc {
-    padding: 15px;
-    text-align: center;
-}
-
-
-.gallery-title
-{
-    font-size: 36px;
-    color: #42B32F;
-    text-align: center;
-    font-weight: 500;
-    margin-bottom: 70px;
-}
-.gallery-title:after {
-    content: "";
-    position: absolute;
-    width: 7.5%;
-    left: 46.5%;
-    height: 45px;
-    border-bottom: 1px solid #5e5e5e;
-}
-.filter-button
-{
-    font-size: 18px;
-    border: 1px solid #42B32F;
-    border-radius: 5px;
-    text-align: center;
-    color: #42B32F;
-    margin-bottom: 30px;
-
-}
-.filter-button:hover
-{
-    font-size: 18px;
-    border: 1px solid #42B32F;
-    border-radius: 5px;
-    text-align: center;
-    color: #ffffff;
-    background-color: #42B32F;
-
-}
-.btn-default:active .filter-button:active
-{
-    background-color: #42B32F;
-    color: white;
-}
-
-.port-image
-{
-    width: 100%;
-}
-
-.gallery_product
-{
-    margin-bottom: 30px;
-}
-
-  </style>
-
-
   <meta charset="utf-8">
   <title>FB Albums</title>
   <base href="/">
 
-     
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
   <script src="http://code.angularjs.org/1.2.1/angular-route.min.js"></script>
-
-  
-
-   
-  
   <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
-
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-
- 
-
-
 </head>
 
-<script>
-
-</script>
 <body ng-controller="mainController">
 
+    <!-- place holder for the Facebook javascript script -->
     <div id="fb-root"></div>
     
-    
     <nav class="navbar navbar-expand-md navbar-dark bg-primary ">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="#">SocialAuth</a>
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Fb Albums</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li>
+              <a href="index.html">Home</a>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <!-- Facebook Login button -->
+            <fb:login-button
+                  id="fb-btn"
+                  scope="public_profile,email,user_birthday,user_location,user_posts,user_photos"
+                  onlogin="window.fbAsyncInit()">
+            </fb:login-button>
+          </ul>
+        </div><!--/.nav-collapse -->
       </div>
-      <div id="navbar" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li><a href="index.html">Home</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <!-- <li><a id="logout" href="#" ng-click="logout()">Logout</a></li> -->
-          <fb:login-button
-              id="fb-btn"
-              scope="public_profile,email,user_birthday,user_location,user_posts,user_photos"
-              onlogin="window.fbAsyncInit()">
-          </fb:login-button>
-        </ul>
-      </div><!--/.nav-collapse -->
-    </div>
     </nav>
     
   <div>
-      <input type="button" style="cursor:pointer" value="Click Here" ng-click ="getdetails2(id)" />
-  <div ng-view=""></div>
+    <input type="button" style="cursor:pointer" value="Click Here" ng-click ="getdetails2()" />
 
-  <div class="container">
+    <div class="container">
       <h3 id="heading">Log in to view your profile</h3>
-      <div id="profile"></div>
       
+      <!-- This calls for a function that displays the user informations -->
+      <div id="profile"></div> 
     </div>
-        <br>
-        <div id="feed2"></div>
-      <div id="feed"></div>
-
-      
-
+    
+    <div class="space">
       <div class="gallery" ng-repeat="receiver in receivers">
         <a id="pictures" href="#album" ng-click="getdetails(receiver.id)">
-          <figure><img class="album" src={{receiver.image}}></figure>
+          <figure>
+            <img class="album" src={{receiver.image}}>
+          </figure>
         </a>
         <div class="desc"> {{receiver.name}}  </div>
-      </div>
+      </div>  
+    </div>     
+    
+    <!-- This helps display the content of the first feed : User Albums with their names -->
+    <div id="feed"></div>
 
+    <!-- This helps display the content of the econd feed : User Album photos with download option -->
+    <div id="feed2"></div>
   </div>
+
   <app-root ></app-root>
+  
   <script>
       
            // create the module and name it scotchApp
@@ -338,8 +92,8 @@ div.desc {
                     console.log(x);
                   }
 
-                  $scope.getdetails2 = function (x) {
-                    console.log(x);
+                  $scope.getdetails2 = function () {
+                    console.log("jijiji");
                   }
 
                  
@@ -359,7 +113,12 @@ div.desc {
                     js = d.createElement(s); js.id = id;
                     js.src = "//connect.facebook.net/en_US/sdk.js";
                     fjs.parentNode.insertBefore(js, fjs);
-                  }(document, 'script', 'facebook-jssdk'));           
+                  }(document, 'script', 'facebook-jssdk'));  
+
+                  window.onload = function()
+                  {
+                    console.log("it got in");
+                  }         
       
                   window.fbAsyncInit = function() {
                     FB.init({
@@ -452,7 +211,7 @@ div.desc {
 
                     //     output += `
                     //     <div class="gallery">
-                    //       <a id="pictures" href="#album" ng-click="${$scope.getdetails2('ffff')}">
+                    //       <a id="pictures" href="#album" ng-click="${$scope.getdetails2()}">
                     //           <figure><img class="album" src="${feed.data[i].picture.data.url}"></figure>
                     //       </a>
                     //       <div class="desc"> ${feed.data[i].name}  </div>
@@ -470,23 +229,22 @@ div.desc {
       
                     // Facebook SECOND feed which contains the user's album photos
                   function buildFeed2(feed){
-                    let output = '';
+                    let output = '<div class="column">';
                    
                     for(let i in feed.data){
                       if(feed.data[i].id){
                         output += `
-                          <div class="gallery_product col-lg-4 col-md-4 col-sm-4 col-xs-6 filter irrigation">
-                           
+                         
+                        <div class="hovering">
                             <a href="${feed.data[i].source}" download>
-                                <img class="img-responsive" src="${feed.data[i].source}">
+                                <img class="image" src="${feed.data[i].source}">
+                                  <div class="text">Click To Download</div>
                             </a>
-                            
                           </div>
                         `;
-
-                  
                       }
                     }
+                    output += '</div>>';
                     document.getElementById('feed2').innerHTML = output;
                   }
       
