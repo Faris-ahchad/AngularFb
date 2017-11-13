@@ -11,11 +11,15 @@
   <link rel="stylesheet" href="https://bootswatch.com/4/darkly/bootstrap.min.css">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <!-- This JS file contains all the Main controller -->
+  <script src="assets/Functions.js"></script>
+
 </head>
 
 <body ng-controller="mainController">
 
-    <!-- place holder for the Facebook javascript script -->
+    <!-- place holder for the Facebook JS script -->
     <div id="fb-root"></div>
     
     <nav class="navbar navbar-expand-md navbar-dark bg-primary ">
@@ -26,7 +30,7 @@
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
             <li>
-              <a href="index.html">Home</a>
+              <a href="#" ng-click="Home()">Home</a>
             </li>
           </ul>
 
@@ -43,8 +47,9 @@
     </nav>
     
   <div>
-    <input type="button" style="cursor:pointer" value="Click Here" ng-click ="getdetails2()" />
-
+    
+   <button id="myButton" class="button" ng-click ="HideButton()"><span>Check your Albums </span></button>
+    
     <div class="container">
       <h3 id="heading">Log in to view your profile</h3>
       
@@ -63,221 +68,15 @@
       </div>  
     </div>     
     
-    <!-- This helps display the content of the first feed : User Albums with their names -->
+    <!-- This helps display the content of the first feed : User Albums with their names, and show it onthe previosu div tag -->
     <div id="feed"></div>
 
     <!-- This helps display the content of the econd feed : User Album photos with download option -->
     <div id="feed2"></div>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Go back to Top</button>
   </div>
 
   <app-root ></app-root>
-  
-  <script>
-      
-           // create the module and name it scotchApp
-           var scotchApp=angular.module('scotchApp', []);
-          
-                // create the controller and inject Angular's $scope
-      
-                scotchApp.controller('mainController', ['$scope',function($scope) {
-                  $scope.id = 0;
-                  $scope.x;
-                  $scope.type=1;
-                  $scope.receivers= [];
-                  $scope.getdetails = function (x) {
-                    $scope.type=2;
-                    testAPI2();
-                    $scope.x=x;
-                    console.log($scope.type);
-                    console.log(x);
-                  }
-
-                  $scope.getdetails2 = function () {
-                    console.log("jijiji");
-                  }
-
-                 
-                    console.log($scope.id);
-                  
-                  (function(d, s, id) {
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) return;
-                    js = d.createElement(s); js.id = id;
-                    js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.10&appId=145346452882980';
-                    fjs.parentNode.insertBefore(js, fjs);
-                  }(document, 'script', 'facebook-jssdk'));
-      
-                  (function(d, s, id){
-                    var js, fjs = d.getElementsByTagName(s)[0];
-                    if (d.getElementById(id)) {return;}
-                    js = d.createElement(s); js.id = id;
-                    js.src = "//connect.facebook.net/en_US/sdk.js";
-                    fjs.parentNode.insertBefore(js, fjs);
-                  }(document, 'script', 'facebook-jssdk'));  
-
-                  window.onload = function()
-                  {
-                    console.log("it got in");
-                  }         
-      
-                  window.fbAsyncInit = function() {
-                    FB.init({
-                      appId      : 'YOURAPPID',
-                      cookie     : true,
-                      xfbml      : true,
-                      version    : 'v2.8'
-                    });
-      
-                    FB.getLoginStatus(function(response) {
-                        statusChangeCallback(response);
-                    });
-                  };
-      
-                  function statusChangeCallback(response){
-                    if(response.status === 'connected'){
-                      console.log('Logged in and authenticated');
-                      setElements(true);
-                      if(document.getElementById('feed'))
-                         $scope.testAPI();
-                      else if(document.getElementById('feed2'))
-                         $scope.testAPI2();
-                    } else {
-                      console.log('Not authenticated');
-                      setElements(false);
-                    }
-                  }
-      
-                    // This function selects all the user's albums and displays them
-                  $scope.testAPI= function(){
-                    FB.api(
-                'me/?fields=name,id,email,birthday,location',
-                function(response) {
-                      if(response && !response.error){
-                        buildProfile(response);
-                      } 
-                    });
-                    FB.api('me/albums?fields=name,picture,id&type=uploaded&limit=100', function(response){
-                        if(response && !response.error){
-                          $scope.buildFeed(response);
-                        }
-                      });
-                  }
-                    // This function selects all the user's selected album photos and displays them
-                  function testAPI2(){
-                    FB.api(
-                'me/?fields=name,id,email,birthday,location',
-                function(response) { 
-                      FB.api($scope.x + '/photos?fields=name,source,id&type=uploaded&limit=5000', function(response){
-                        if(response && !response.error){
-                          buildFeed2(response);
-                        }
-                      });
-                    })
-                  }
-                  
-                    // Facebook Profile which contains the user's personal informations (Id, Name, Email, Birthday, and location)
-                  function buildProfile(user){
-                    let profile = `
-                      <h3>${user.name}</h3>
-                      <ul class="list-group">
-                        <li class="list-group-item">User ID: ${user.id}</li>
-                        <li class="list-group-item">User ID: ${user.name}</li>
-                        <li class="list-group-item">Email: ${user.email}</li>
-                        <li class="list-group-item">User birthday: ${user.birthday}</li>
-                        <li class="list-group-item">User location: ${user.location.name}</li>
-                      </ul>
-                    `;
-      
-                    document.getElementById('profile').innerHTML = profile;
-                  }
-      
-                  
-                  // Facebook FIRST feed which contains the user's albums
-                 $scope.buildFeed= function(feed){
-                    let output = '';
-
-                    for(let i in feed.data){
-                      if(feed.data[i].name){
-                        $scope.receivers[i]= {name: feed.data[i].name, 
-                                          image: feed.data[i].picture.data.url,
-                                          id: feed.data[i].id};
-                        console.log($scope.receivers[i]); 
-                      }
-                    }
-
-
-                    // for(let i in feed.data){
-                    //   if(feed.data[i].name){
-
-                    //     output += `
-                    //     <div class="gallery">
-                    //       <a id="pictures" href="#album" ng-click="${$scope.getdetails2()}">
-                    //           <figure><img class="album" src="${feed.data[i].picture.data.url}"></figure>
-                    //       </a>
-                    //       <div class="desc"> ${feed.data[i].name}  </div>
-                    //   </div>
-                
-                    //     `;
-                       
-                    //     console.log(feed.data[i]); 
-                    //   }
-                    // }
-      
-                    // document.getElementById('feed').innerHTML = output;
-
-                  }
-      
-                    // Facebook SECOND feed which contains the user's album photos
-                  function buildFeed2(feed){
-                    let output = '<div class="column">';
-                   
-                    for(let i in feed.data){
-                      if(feed.data[i].id){
-                        output += `
-                         
-                        <div class="hovering">
-                            <a href="${feed.data[i].source}" download>
-                                <img class="image" src="${feed.data[i].source}">
-                                  <div class="text">Click To Download</div>
-                            </a>
-                          </div>
-                        `;
-                      }
-                    }
-                    output += '</div>>';
-                    document.getElementById('feed2').innerHTML = output;
-                  }
-      
-                  
-                    // checks the user login condition, if he's logged in, he can see the feed, if not; he can only see the heading and the login button option
-                  function setElements(isLoggedIn){
-                    if(isLoggedIn){
-                      // document.getElementById('logout').style.display = 'block';
-                      document.getElementById('profile').style.display = 'block';
-                      document.getElementById('feed').style.display = 'block';      
-                      document.getElementById('fb-btn').style.display = 'none';
-                      document.getElementById('heading').style.display = 'none';
-                    } else {
-                      // document.getElementById('logout').style.display = 'none';
-                      document.getElementById('profile').style.display = 'none';
-                      document.getElementById('feed').style.display = 'none';
-                      document.getElementById('fb-btn').style.display = 'block';
-                      document.getElementById('heading').style.display = 'block';
-                    }
-                  }
-      
-                  // $scope.logout= function(){
-                  //   FB.logout(function(response){
-                  //     setElements(false);
-                  //   });
-                  // }
-      
-                        }]);
-
-                       
-                         
-        </script>
-
 
 </body>
 </html>
